@@ -6,22 +6,31 @@ import dash
 from dash import Dash, html, dcc, Input, Output
 import logging
 import sys
+import os  # <-- ADD THIS IMPORT
 
-df_pres_resp = pd.read_csv("../clean_data/presenciais_dadosavdisciplinas.csv")
-df_pres_q = pd.read_csv("../clean_data/presenciais_perguntas.csv")
-df_pres_disc = pd.read_csv("../clean_data/presenciais_disciplinas.csv")
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Go up one level to the main Dashboard directory
+project_root = os.path.dirname(current_dir)
+# Construct the path to your data
+clean_data_path = os.path.join(project_root, 'clean_data')
 
-df_curso_resp = pd.read_csv("../clean_data/cursos_dadosavcursos.csv")
-df_curso_q = pd.read_csv("../clean_data/cursos_perguntas.csv")
-df_curso_info = pd.read_csv("../clean_data/cursos_curso.csv")
+# Load data with proper paths
+df_pres_resp = pd.read_csv(os.path.join(clean_data_path, "presenciais_dadosavdisciplinas.csv"))
+df_pres_q = pd.read_csv(os.path.join(clean_data_path, "presenciais_perguntas.csv"))
+df_pres_disc = pd.read_csv(os.path.join(clean_data_path, "presenciais_disciplinas.csv"))
 
-df_ead_resp = pd.read_csv("../clean_data/ead_pesq423_discip.csv")
-df_ead_q = pd.read_csv("../clean_data/ead_perguntas.csv")
-df_ead_disc = pd.read_csv("../clean_data/ead_disciplinas.csv")
+df_curso_resp = pd.read_csv(os.path.join(clean_data_path, "cursos_dadosavcursos.csv"))
+df_curso_q = pd.read_csv(os.path.join(clean_data_path, "cursos_perguntas.csv"))
+df_curso_info = pd.read_csv(os.path.join(clean_data_path, "cursos_curso.csv"))
 
-df_inst_resp = pd.read_csv("../clean_data/institucional_pesquisa 442.csv")
-df_inst_q = pd.read_csv("../clean_data/institucional_perguntas.csv")
-df_inst_unidades = pd.read_csv("../clean_data/institucional_unidades.csv")
+df_ead_resp = pd.read_csv(os.path.join(clean_data_path, "ead_pesq423_discip.csv"))
+df_ead_q = pd.read_csv(os.path.join(clean_data_path, "ead_perguntas.csv"))
+df_ead_disc = pd.read_csv(os.path.join(clean_data_path, "ead_disciplinas.csv"))
+
+df_inst_resp = pd.read_csv(os.path.join(clean_data_path, "institucional_pesquisa 442.csv"))
+df_inst_q = pd.read_csv(os.path.join(clean_data_path, "institucional_perguntas.csv"))
+df_inst_unidades = pd.read_csv(os.path.join(clean_data_path, "institucional_unidades.csv"))
 
 def processar_dados_presenciais():
     df = df_pres_resp.merge(df_pres_q, on=["ID_PERGUNTA", "ID_QUESTIONARIO"], how="left")
@@ -101,6 +110,7 @@ class DevNull:
 sys.stderr = DevNull()
 
 app = Dash(__name__, suppress_callback_exceptions=True)
+server = app.server 
 
 cores_ufpr = {
     'verde_principal': '#008450',
@@ -1301,4 +1311,4 @@ def atualizar_graficos_institucional(ids, unidades):
     return fig_satisfacao, fig_distribuicao, fig_treemap_unidades
 
 if __name__ == "__main__":
-    app.run(debug=False, dev_tools_silence_routes_logging=True)
+    app.run(debug=False, host='0.0.0.0', port=8050, dev_tools_silence_routes_logging=True)
