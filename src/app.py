@@ -6,16 +6,14 @@ import dash
 from dash import Dash, html, dcc, Input, Output
 import logging
 import sys
-import os  # <-- ADD THIS IMPORT
+import os
 
-# Get the directory of the current script
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# Go up one level to the main Dashboard directory
+
 project_root = os.path.dirname(current_dir)
-# Construct the path to your data
+
 clean_data_path = os.path.join(project_root, 'clean_data')
 
-# Load data with proper paths
 df_pres_resp = pd.read_csv(os.path.join(clean_data_path, "presenciais_dadosavdisciplinas.csv"))
 df_pres_q = pd.read_csv(os.path.join(clean_data_path, "presenciais_perguntas.csv"))
 df_pres_disc = pd.read_csv(os.path.join(clean_data_path, "presenciais_disciplinas.csv"))
@@ -28,7 +26,7 @@ df_ead_resp = pd.read_csv(os.path.join(clean_data_path, "ead_pesq423_discip.csv"
 df_ead_q = pd.read_csv(os.path.join(clean_data_path, "ead_perguntas.csv"))
 df_ead_disc = pd.read_csv(os.path.join(clean_data_path, "ead_disciplinas.csv"))
 
-df_inst_resp = pd.read_csv(os.path.join(clean_data_path, "institucional_pesquisa 442.csv"))
+df_inst_resp = pd.read_csv(os.path.join(clean_data_path, "institucional_pesquisa_442.csv"))
 df_inst_q = pd.read_csv(os.path.join(clean_data_path, "institucional_perguntas.csv"))
 df_inst_unidades = pd.read_csv(os.path.join(clean_data_path, "institucional_unidades.csv"))
 
