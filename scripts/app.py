@@ -108,6 +108,140 @@ ordem_likert = ["Discordo", "Desconheço", "Concordo"]
 app = Dash(__name__)
 
 # =============================================================
+# ESTILOS E CORES
+# =============================================================
+
+# Cores da UFPR
+cores_ufpr = {
+    'verde_principal': '#008450',
+    'verde_secundario': '#4CAF50',
+    'azul': '#0056A3',
+    'amarelo': '#FFD700',
+    'laranja': '#FF8C00',
+    'vermelho': '#DC143C',
+    'cinza_claro': '#F8F9FA',
+    'cinza_medio': '#E9ECEF',
+    'cinza_escuro': '#6C757D',
+    'branco': '#FFFFFF'
+}
+
+# Estilos CSS personalizados
+estilos = {
+    'container_principal': {
+        'backgroundColor': cores_ufpr['cinza_claro'],
+        'minHeight': '100vh',
+        'padding': '20px',
+        'fontFamily': 'Segoe UI, Arial, sans-serif'
+    },
+    'header': {
+        'backgroundColor': cores_ufpr['verde_principal'],
+        'color': cores_ufpr['branco'],
+        'padding': '25px',
+        'borderRadius': '12px',
+        'marginBottom': '25px',
+        'boxShadow': '0 4px 12px rgba(0,0,0,0.1)',
+        'textAlign': 'center'
+    },
+    'titulo_principal': {
+        'fontSize': '2.5rem',
+        'fontWeight': '700',
+        'marginBottom': '8px',
+        'color': cores_ufpr['branco']
+    },
+    'subtitulo': {
+        'fontSize': '1.1rem',
+        'fontWeight': '300',
+        'color': cores_ufpr['branco'],
+        'opacity': '0.9'
+    },
+    'tabs_container': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '0',
+        'marginBottom': '25px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.08)'
+    },
+    'tab': {
+        'backgroundColor': cores_ufpr['cinza_medio'],
+        'color': cores_ufpr['cinza_escuro'],
+        'padding': '15px 25px',
+        'border': 'none',
+        'fontWeight': '600',
+        'fontSize': '14px'
+    },
+    'tab_selecionada': {
+        'backgroundColor': cores_ufpr['verde_principal'],
+        'color': cores_ufpr['branco'],
+        'border': 'none',
+        'fontWeight': '600'
+    },
+    'card': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '20px',
+        'marginBottom': '20px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)',
+        'border': f"1px solid {cores_ufpr['cinza_medio']}"
+    },
+    'filtros_container': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '20px',
+        'marginBottom': '25px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)'
+    },
+    'dropdown': {
+        'backgroundColor': cores_ufpr['branco'],
+        'border': f"1px solid {cores_ufpr['cinza_medio']}",
+        'borderRadius': '8px'
+    },
+    'grafico_container': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '15px',
+        'marginBottom': '20px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)',
+        'border': f"1px solid {cores_ufpr['cinza_medio']}"
+    },
+    'kpi_card': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '20px',
+        'textAlign': 'center',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)',
+        'border': f"1px solid {cores_ufpr['cinza_medio']}"
+    },
+    'grafico_principal': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '15px',
+        'marginBottom': '20px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)',
+        'border': f"1px solid {cores_ufpr['cinza_medio']}",
+        'width': '100%'
+    },
+    'grafico_duplo': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '15px',
+        'marginBottom': '20px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)',
+        'border': f"1px solid {cores_ufpr['cinza_medio']}",
+        'width': '48%',
+        'display': 'inline-block'
+    },
+    'treemap_container': {
+        'backgroundColor': cores_ufpr['branco'],
+        'borderRadius': '12px',
+        'padding': '15px',
+        'marginBottom': '20px',
+        'boxShadow': '0 2px 8px rgba(0,0,0,0.06)',
+        'border': f"1px solid {cores_ufpr['cinza_medio']}",
+        'width': '100%'
+    }
+}
+
+# =============================================================
 # FUNÇÕES AUXILIARES PARA GRÁFICOS
 # =============================================================
 
@@ -117,7 +251,12 @@ def criar_grafico_likert(dff, perguntas_selecionadas=None, mapeamento_perguntas=
         dff = dff[dff["PERGUNTA"].isin(perguntas_completas)]
     
     if dff.empty:
-        return px.bar(title="Selecione pelo menos uma pergunta para visualizar")
+        fig = go.Figure()
+        fig.add_annotation(text="Selecione pelo menos uma pergunta para visualizar", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     likert_df = (
         dff.groupby(["PERGUNTA", "RESPOSTA"])
@@ -156,9 +295,9 @@ def criar_grafico_likert(dff, perguntas_selecionadas=None, mapeamento_perguntas=
             "RESPOSTA": "Resposta"
         },
         color_discrete_map={
-            "Concordo": "#2E8B57",
-            "Desconheço": "#FFA500",
-            "Discordo": "#DC143C"
+            "Concordo": cores_ufpr['verde_principal'],
+            "Desconheço": cores_ufpr['amarelo'],
+            "Discordo": cores_ufpr['vermelho']
         },
         hover_data={"Quantidade": True, "Percentual": True}
     )
@@ -171,33 +310,41 @@ def criar_grafico_likert(dff, perguntas_selecionadas=None, mapeamento_perguntas=
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=1
+            x=1,
+            bgcolor='rgba(255,255,255,0.8)'
         ),
         title=dict(
             text="Distribuição de Respostas por Pergunta",
             x=0.5,
             xanchor="center",
-            font=dict(size=18, family="Arial")
+            font=dict(size=18, family="Arial", color=cores_ufpr['cinza_escuro'])
         ),
-        font=dict(size=12),
-        height=500
+        font=dict(size=12, family="Segoe UI"),
+        height=500,
+        paper_bgcolor='white',
+        plot_bgcolor='white'
     )
     
-    fig.update_xaxes(ticksuffix="%", range=[0, 100])
-    fig.update_yaxes(title=None, categoryorder="total ascending")
+    fig.update_xaxes(ticksuffix="%", range=[0, 100], gridcolor=cores_ufpr['cinza_medio'])
+    fig.update_yaxes(title=None, categoryorder="total ascending", gridcolor=cores_ufpr['cinza_medio'])
     
     totais = likert_df.groupby("PERGUNTA")["Quantidade"].sum().reset_index()
     for idx, row in totais.iterrows():
         fig.add_annotation(
             x=105, y=row["PERGUNTA"], text=f"n={row['Quantidade']}",
-            showarrow=False, xanchor="left", font=dict(size=10, color="gray")
+            showarrow=False, xanchor="left", font=dict(size=10, color=cores_ufpr['cinza_escuro'])
         )
 
     return fig
 
 def criar_grafico_satisfacao_geral(dff):
     if dff.empty:
-        return px.pie(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -209,22 +356,36 @@ def criar_grafico_satisfacao_geral(dff):
         names=distribuição_respostas.index,
         title="Distribuição Geral de Respostas",
         color_discrete_map={
-            "Concordo": "#2E8B57",
-            "Desconheço": "#FFA500", 
-            "Discordo": "#DC143C"
+            "Concordo": cores_ufpr['verde_principal'],
+            "Desconheço": cores_ufpr['amarelo'],
+            "Discordo": cores_ufpr['vermelho']
         }
     )
     
     fig.update_layout(
-        title=dict(x=0.5, xanchor="center"),
-        height=400
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
+        height=400,
+        paper_bgcolor='white',
+        plot_bgcolor='white',
+        legend=dict(bgcolor='rgba(255,255,255,0.8)')
+    )
+    
+    fig.update_traces(
+        textinfo='percent+label',
+        hovertemplate='<b>%{label}</b><br>Percentual: %{percent}<extra></extra>',
+        marker=dict(line=dict(color='white', width=2))
     )
     
     return fig
 
 def criar_grafico_top_cursos(dff):
     if dff.empty:
-        return px.bar(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -248,17 +409,24 @@ def criar_grafico_top_cursos(dff):
     )
     
     fig.update_layout(
-        title=dict(x=0.5, xanchor="center"),
-        xaxis=dict(range=[1, 3]),
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
+        xaxis=dict(range=[1, 3], gridcolor=cores_ufpr['cinza_medio']),
         height=500,
-        coloraxis_showscale=False
+        coloraxis_showscale=False,
+        paper_bgcolor='white',
+        plot_bgcolor='white'
     )
     
     return fig
 
 def criar_grafico_treemap_setor(dff):
     if dff.empty:
-        return px.treemap(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -300,15 +468,16 @@ def criar_grafico_treemap_setor(dff):
     )
     
     fig.update_layout(
-        title=dict(x=0.5, xanchor="center"),
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
         height=600,
-        font=dict(size=14),
-        margin=dict(t=50, l=25, r=25, b=25)
+        font=dict(size=14, family="Segoe UI"),
+        margin=dict(t=50, l=25, r=25, b=25),
+        paper_bgcolor='white'
     )
     
     fig.update_coloraxes(showscale=False)
     fig.update_traces(
-        textfont=dict(size=16, family="Arial"),
+        textfont=dict(size=16, family="Segoe UI"),
         hovertemplate='<b>%{label}</b><br>Total Respostas: %{value}<br>Pontuação Média: %{color:.2f}<extra></extra>'
     )
     
@@ -316,7 +485,12 @@ def criar_grafico_treemap_setor(dff):
 
 def criar_grafico_treemap_departamento(dff):
     if dff.empty:
-        return px.treemap(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -358,15 +532,16 @@ def criar_grafico_treemap_departamento(dff):
     )
     
     fig.update_layout(
-        title=dict(x=0.5, xanchor="center"),
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
         height=600,
-        font=dict(size=14),
-        margin=dict(t=50, l=25, r=25, b=25)
+        font=dict(size=14, family="Segoe UI"),
+        margin=dict(t=50, l=25, r=25, b=25),
+        paper_bgcolor='white'
     )
     
     fig.update_coloraxes(showscale=False)
     fig.update_traces(
-        textfont=dict(size=16, family="Arial"),
+        textfont=dict(size=16, family="Segoe UI"),
         hovertemplate='<b>%{label}</b><br>Total Respostas: %{value}<br>Pontuação Média: %{color:.2f}<extra></extra>'
     )
     
@@ -379,7 +554,12 @@ def criar_grafico_treemap_departamento(dff):
 def criar_grafico_distribuicao_cursos(dff):
     """Distribuição de Respostas por Cursos"""
     if dff.empty:
-        return px.bar(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     # Calcular distribuição de respostas por curso (top 15 por volume)
     curso_respostas = dff.groupby(["CURSO", "RESPOSTA"]).size().reset_index(name="Quantidade")
@@ -426,9 +606,9 @@ def criar_grafico_distribuicao_cursos(dff):
             "RESPOSTA": "Resposta"
         },
         color_discrete_map={
-            "Concordo": "#2E8B57",
-            "Desconheço": "#FFA500",
-            "Discordo": "#DC143C"
+            "Concordo": cores_ufpr['verde_principal'],
+            "Desconheço": cores_ufpr['amarelo'],
+            "Discordo": cores_ufpr['vermelho']
         },
         hover_data={"Quantidade": True, "Percentual": True}
     )
@@ -441,21 +621,24 @@ def criar_grafico_distribuicao_cursos(dff):
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=1
+            x=1,
+            bgcolor='rgba(255,255,255,0.8)'
         ),
-        title=dict(x=0.5, xanchor="center"),
-        height=500
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
+        height=500,
+        paper_bgcolor='white',
+        plot_bgcolor='white'
     )
     
-    fig.update_xaxes(ticksuffix="%", range=[0, 100])
-    fig.update_yaxes(title=None, categoryorder="total ascending")
+    fig.update_xaxes(ticksuffix="%", range=[0, 100], gridcolor=cores_ufpr['cinza_medio'])
+    fig.update_yaxes(title=None, categoryorder="total ascending", gridcolor=cores_ufpr['cinza_medio'])
     
     # Adicionar anotações com número total de respostas
     totais = curso_respostas.groupby("CURSO")["Quantidade"].sum().reset_index()
     for idx, row in totais.iterrows():
         fig.add_annotation(
             x=105, y=row["CURSO"], text=f"n={row['Quantidade']}",
-            showarrow=False, xanchor="left", font=dict(size=10, color="gray")
+            showarrow=False, xanchor="left", font=dict(size=10, color=cores_ufpr['cinza_escuro'])
         )
 
     return fig
@@ -463,7 +646,12 @@ def criar_grafico_distribuicao_cursos(dff):
 def criar_grafico_distribuicao_disciplinas_ead(dff):
     """Distribuição de Respostas por Disciplinas EAD usando NOME_DISCIPLINA"""
     if dff.empty:
-        return px.bar(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     # CORREÇÃO: Verificar explicitamente se NOME_DISCIPLINA existe e tem dados
     if "NOME_DISCIPLINA" in dff.columns and not dff["NOME_DISCIPLINA"].isna().all():
@@ -518,9 +706,9 @@ def criar_grafico_distribuicao_disciplinas_ead(dff):
             "RESPOSTA": "Resposta"
         },
         color_discrete_map={
-            "Concordo": "#2E8B57",
-            "Desconheço": "#FFA500",
-            "Discordo": "#DC143C"
+            "Concordo": cores_ufpr['verde_principal'],
+            "Desconheço": cores_ufpr['amarelo'],
+            "Discordo": cores_ufpr['vermelho']
         },
         hover_data={"Quantidade": True, "Percentual": True}
     )
@@ -533,22 +721,25 @@ def criar_grafico_distribuicao_disciplinas_ead(dff):
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=1
+            x=1,
+            bgcolor='rgba(255,255,255,0.8)'
         ),
-        title=dict(x=0.5, xanchor="center"),
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
         height=600,
-        font=dict(size=11)
+        font=dict(size=11, family="Segoe UI"),
+        paper_bgcolor='white',
+        plot_bgcolor='white'
     )
     
-    fig.update_xaxes(ticksuffix="%", range=[0, 100])
-    fig.update_yaxes(title=None, categoryorder="total ascending")
+    fig.update_xaxes(ticksuffix="%", range=[0, 100], gridcolor=cores_ufpr['cinza_medio'])
+    fig.update_yaxes(title=None, categoryorder="total ascending", gridcolor=cores_ufpr['cinza_medio'])
     
     # Adicionar anotações com número total de respostas
     totais = disciplina_respostas.groupby(coluna_disciplina)["Quantidade"].sum().reset_index()
     for idx, row in totais.iterrows():
         fig.add_annotation(
             x=105, y=row[coluna_disciplina], text=f"n={row['Quantidade']}",
-            showarrow=False, xanchor="left", font=dict(size=9, color="gray")
+            showarrow=False, xanchor="left", font=dict(size=9, color=cores_ufpr['cinza_escuro'])
         )
 
     return fig
@@ -556,7 +747,12 @@ def criar_grafico_distribuicao_disciplinas_ead(dff):
 def criar_grafico_treemap_disciplinas_ead(dff):
     """Treemap das disciplinas EAD por volume de respostas usando NOME_DISCIPLINA"""
     if dff.empty:
-        return px.treemap(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -604,14 +800,15 @@ def criar_grafico_treemap_disciplinas_ead(dff):
     )
     
     fig.update_layout(
-        title=dict(x=0.5, xanchor="center"),
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
         height=600,
-        font=dict(size=14),
-        margin=dict(t=50, l=25, r=25, b=25)
+        font=dict(size=14, family="Segoe UI"),
+        margin=dict(t=50, l=25, r=25, b=25),
+        paper_bgcolor='white'
     )
     
     fig.update_traces(
-        textfont=dict(size=14, family="Arial"),
+        textfont=dict(size=14, family="Segoe UI"),
         texttemplate='<b>%{label}</b>',
         hovertemplate='<b>%{label}</b><br>Total Respostas: %{value}<br>Pontuação Média: %{color:.2f}<extra></extra>'
     )
@@ -625,7 +822,12 @@ def criar_grafico_treemap_disciplinas_ead(dff):
 
 def criar_grafico_distribuicao_unidades_institucional(dff):
     if dff.empty:
-        return px.bar(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -674,9 +876,9 @@ def criar_grafico_distribuicao_unidades_institucional(dff):
             "RESPOSTA": "Resposta"
         },
         color_discrete_map={
-            "Concordo": "#2E8B57",
-            "Desconheço": "#FFA500",
-            "Discordo": "#DC143C"
+            "Concordo": cores_ufpr['verde_principal'],
+            "Desconheço": cores_ufpr['amarelo'],
+            "Discordo": cores_ufpr['vermelho']
         },
         hover_data={"Quantidade": True, "Percentual": True}
     )
@@ -689,19 +891,27 @@ def criar_grafico_distribuicao_unidades_institucional(dff):
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=1
+            x=1,
+            bgcolor='rgba(255,255,255,0.8)'
         ),
-        title=dict(x=0.5, xanchor="center"),
-        height=500
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
+        height=500,
+        paper_bgcolor='white',
+        plot_bgcolor='white'
     )
     
-    fig.update_xaxes(ticksuffix="%", range=[0, 100])
+    fig.update_xaxes(ticksuffix="%", range=[0, 100], gridcolor=cores_ufpr['cinza_medio'])
     
     return fig
 
 def criar_grafico_treemap_unidades_institucional(dff):
     if dff.empty:
-        return px.treemap(title="Nenhum dado para exibir")
+        fig = go.Figure()
+        fig.add_annotation(text="Nenhum dado para exibir", 
+                          xref="paper", yref="paper", x=0.5, y=0.5, xanchor='center', yanchor='middle',
+                          showarrow=False, font=dict(size=16))
+        fig.update_layout(paper_bgcolor='white', plot_bgcolor='white')
+        return fig
     
     valores = {"Discordo": 1, "Desconheço": 2, "Concordo": 3}
     dff["valor_num"] = dff["RESPOSTA"].map(valores)
@@ -753,15 +963,16 @@ def criar_grafico_treemap_unidades_institucional(dff):
     )
     
     fig.update_layout(
-        title=dict(x=0.5, xanchor="center"),
+        title=dict(x=0.5, xanchor="center", font=dict(color=cores_ufpr['cinza_escuro'])),
         height=600,
-        font=dict(size=14),
-        margin=dict(t=50, l=25, r=25, b=25)
+        font=dict(size=14, family="Segoe UI"),
+        margin=dict(t=50, l=25, r=25, b=25),
+        paper_bgcolor='white'
     )
     
     fig.update_coloraxes(showscale=False)
     fig.update_traces(
-        textfont=dict(size=16, family="Arial"),
+        textfont=dict(size=16, family="Segoe UI"),
         hovertemplate='<b>%{label}</b><br>Total Respostas: %{value}<br>Pontuação Média: %{color:.2f}<extra></extra>'
     )
     
@@ -771,16 +982,48 @@ def criar_grafico_treemap_unidades_institucional(dff):
 # LAYOUT COM ABAS
 # =============================================================
 
-app.layout = html.Div([
-    html.H1("Dashboard de Avaliações UFPR", style={"marginBottom": "20px"}),
-    
-    dcc.Tabs(id="tabs-principais", value='tab-cursos', children=[
-        dcc.Tab(label='Cursos', value='tab-cursos'),
-        dcc.Tab(label='Disciplinas Presenciais', value='tab-presencial'),
-        dcc.Tab(label='Disciplinas EAD', value='tab-ead'),
-        dcc.Tab(label='Institucional', value='tab-institucional'),
+app.layout = html.Div(style=estilos['container_principal'], children=[
+    # Header com branding
+    html.Div(style=estilos['header'], children=[
+        html.H1("Dashboard de Avaliações UFPR", style=estilos['titulo_principal']),
+        html.P("Análise de Satisfação e Desempenho Acadêmico", style=estilos['subtitulo']),
     ]),
     
+    # Container principal com abas
+    html.Div(style=estilos['tabs_container'], children=[
+        dcc.Tabs(
+            id="tabs-principais", 
+            value='tab-cursos',
+            children=[
+                dcc.Tab(
+                    label='📊 Cursos', 
+                    value='tab-cursos',
+                    style=estilos['tab'],
+                    selected_style=estilos['tab_selecionada']
+                ),
+                dcc.Tab(
+                    label='🎓 Disciplinas Presenciais', 
+                    value='tab-presencial',
+                    style=estilos['tab'],
+                    selected_style=estilos['tab_selecionada']
+                ),
+                dcc.Tab(
+                    label='💻 Disciplinas EAD', 
+                    value='tab-ead',
+                    style=estilos['tab'],
+                    selected_style=estilos['tab_selecionada']
+                ),
+                dcc.Tab(
+                    label='🏛️ Institucional', 
+                    value='tab-institucional',
+                    style=estilos['tab'],
+                    selected_style=estilos['tab_selecionada']
+                ),
+            ]
+        ),
+    ]),
+    
+    # Conteúdo das abas
     html.Div(id="conteudo-tab")
 ])
 
@@ -800,103 +1043,108 @@ def criar_layout_presencial():
         mapeamento_perguntas[label_final] = pergunta
         opcoes_perguntas.append({"label": label_final, "value": label_final})
 
-    return html.Div([
-        html.H3("Disciplinas Presenciais"),
+    return html.Div(style=estilos['card'], children=[
+        html.H3("🎓 Disciplinas Presenciais", style={'color': cores_ufpr['verde_principal'], 'marginBottom': '20px', 'textAlign': 'center'}),
         
-        html.Div([
+        # Filtros
+        html.Div(style=estilos['filtros_container'], children=[
             html.Div([
-                html.Label("ID da Pesquisa"),
+                html.Label("🔍 ID da Pesquisa", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-id-presencial",
                     options=[{"label": str(id_pesquisa), "value": id_pesquisa} 
                             for id_pesquisa in sorted(df_presencial["ID_PESQUISA"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) ID(s)"
+                    placeholder="Selecione o(s) ID(s)",
+                    style=estilos['dropdown']
                 ),
             ], style={"width": "30%", "display": "inline-block", "padding": "10px"}),
 
             html.Div([
-                html.Label("Curso"),
+                html.Label("📚 Curso", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-curso-presencial",
                     options=[{"label": c, "value": c} for c in sorted(df_presencial["CURSO"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) curso(s)"
+                    placeholder="Selecione o(s) curso(s)",
+                    style=estilos['dropdown']
                 ),
             ], style={"width": "30%", "display": "inline-block", "padding": "10px"}),
 
             html.Div([
-                html.Label("Pergunta"),
+                html.Label("❓ Pergunta", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-pergunta-presencial",
                     options=opcoes_perguntas,
                     multi=True,
                     placeholder="Selecione a(s) pergunta(s)",
-                    style={'minWidth': '450px', 'fontSize': '12px'}
+                    style={'minWidth': '450px', 'fontSize': '12px', **estilos['dropdown']}
                 ),
             ], style={"width": "40%", "display": "inline-block", "padding": "10px"}),
         ]),
 
-        html.Br(), html.Br(),
-
-        dcc.Graph(id="grafico-likert-presencial"),
+        # Gráfico principal
+        html.Div(children=[
+            dcc.Graph(id="grafico-likert-presencial"),
+        ], style=estilos['grafico_principal']),
         
-        html.Div([
-            html.Div([
+        # Gráficos secundários
+        html.Div(style={'display': 'flex', 'justifyContent': 'space-between', 'gap': '20px'}, children=[
+            html.Div(children=[
                 dcc.Graph(id="grafico-satisfacao-presencial"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
             
-            html.Div([
+            html.Div(children=[
                 dcc.Graph(id="grafico-treemap-departamentos"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
         ])
     ])
 
 def criar_layout_cursos():
-    return html.Div([
-        html.H3("Avaliação de Cursos"),
+    return html.Div(style=estilos['card'], children=[
+        html.H3("📊 Avaliação de Cursos", style={'color': cores_ufpr['verde_principal'], 'marginBottom': '20px', 'textAlign': 'center'}),
         
-        html.Div([
+        # Filtros
+        html.Div(style=estilos['filtros_container'], children=[
             html.Div([
-                html.Label("ID da Pesquisa"),
+                html.Label("🔍 ID da Pesquisa", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-id-cursos",
                     options=[{"label": str(id_pesquisa), "value": id_pesquisa} 
                             for id_pesquisa in sorted(df_cursos["ID_PESQUISA"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) ID(s)"
+                    placeholder="Selecione o(s) ID(s)",
+                    style=estilos['dropdown']
                 ),
-            ], style={"width": "50%", "display": "inline-block", "padding": "10px"}),
+            ], style={"width": "48%", "display": "inline-block", "padding": "10px", "marginRight": "2%"}),
 
             html.Div([
-                html.Label("Curso"),
+                html.Label("📚 Curso", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-curso-cursos",
                     options=[{"label": c, "value": c} for c in sorted(df_cursos["CURSO"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) curso(s)"
+                    placeholder="Selecione o(s) curso(s)",
+                    style=estilos['dropdown']
                 ),
-            ], style={"width": "50%", "display": "inline-block", "padding": "10px"}),
+            ], style={"width": "48%", "display": "inline-block", "padding": "10px", "marginLeft": "2%"}),
         ]),
 
-        html.Br(), html.Br(),
-
-        html.Div([
-            html.Div([
+        # Gráficos superiores
+        html.Div(style={'display': 'flex', 'justifyContent': 'space-between', 'gap': '20px'}, children=[
+            html.Div(children=[
                 dcc.Graph(id="grafico-satisfacao-cursos"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
             
-            # ALTERAÇÃO: Substituir "grafico-top-cursos" por "grafico-distribuicao-cursos"
-            html.Div([
+            html.Div(children=[
                 dcc.Graph(id="grafico-distribuicao-cursos"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
         ]),
         
-        html.Div([
-            html.Div([
-                dcc.Graph(id="grafico-treemap-setores"),
-            ], style={"width": "100%", "display": "inline-block"}),
-        ])
+        # Gráfico inferior (Treemap)
+        html.Div(children=[
+            dcc.Graph(id="grafico-treemap-setores"),
+        ], style=estilos['treemap_container'])
     ])
 
 def criar_layout_ead():
@@ -911,57 +1159,60 @@ def criar_layout_ead():
         mapeamento_perguntas[label_final] = pergunta
         opcoes_perguntas.append({"label": label_final, "value": label_final})
 
-    return html.Div([
-        html.H3("Disciplinas EAD"),
+    return html.Div(style=estilos['card'], children=[
+        html.H3("💻 Disciplinas EAD", style={'color': cores_ufpr['verde_principal'], 'marginBottom': '20px', 'textAlign': 'center'}),
         
-        html.Div([
+        # Filtros
+        html.Div(style=estilos['filtros_container'], children=[
             html.Div([
-                html.Label("ID da Pesquisa"),
+                html.Label("🔍 ID da Pesquisa", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-id-ead",
                     options=[{"label": str(id_pesquisa), "value": id_pesquisa} 
                             for id_pesquisa in sorted(df_ead["ID_PESQUISA"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) ID(s)"
+                    placeholder="Selecione o(s) ID(s)",
+                    style=estilos['dropdown']
                 ),
             ], style={"width": "30%", "display": "inline-block", "padding": "10px"}),
 
             html.Div([
-                html.Label("Programa EAD"),
+                html.Label("🎯 Programa EAD", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-programa-ead",
                     options=[{"label": c, "value": c} for c in sorted(df_ead["CURSO"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) programa(s)"
+                    placeholder="Selecione o(s) programa(s)",
+                    style=estilos['dropdown']
                 ),
             ], style={"width": "30%", "display": "inline-block", "padding": "10px"}),
 
             html.Div([
-                html.Label("Pergunta"),
+                html.Label("❓ Pergunta", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-pergunta-ead",
                     options=opcoes_perguntas,
                     multi=True,
                     placeholder="Selecione a(s) pergunta(s)",
-                    style={'minWidth': '450px', 'fontSize': '12px'}
+                    style={'minWidth': '450px', 'fontSize': '12px', **estilos['dropdown']}
                 ),
             ], style={"width": "40%", "display": "inline-block", "padding": "10px"}),
         ]),
 
-        html.Br(), html.Br(),
-
-        # REMOÇÃO: Gráfico likert removido completamente
-        # Gráfico principal no topo
-        dcc.Graph(id="grafico-distribuicao-disciplinas-ead"),
+        # Gráfico principal
+        html.Div(children=[
+            dcc.Graph(id="grafico-distribuicao-disciplinas-ead"),
+        ], style=estilos['grafico_principal']),
         
-        html.Div([
-            html.Div([
+        # Gráficos secundários
+        html.Div(style={'display': 'flex', 'justifyContent': 'space-between', 'gap': '20px'}, children=[
+            html.Div(children=[
                 dcc.Graph(id="grafico-satisfacao-ead"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
             
-            html.Div([
+            html.Div(children=[
                 dcc.Graph(id="grafico-treemap-disciplinas-ead"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
         ])
     ])
 
@@ -977,50 +1228,50 @@ def criar_layout_institucional():
         unidades_unicas = sorted(df_institucional["SIGLA_LOTACAO"].dropna().unique())
         print(f"Layout usando SIGLA_LOTACAO (fallback) - {len(unidades_unicas)} unidades")
     
-    return html.Div([
-        html.H3("Avaliação Institucional"),
+    return html.Div(style=estilos['card'], children=[
+        html.H3("🏛️ Avaliação Institucional", style={'color': cores_ufpr['verde_principal'], 'marginBottom': '20px', 'textAlign': 'center'}),
         
-        html.Div([
+        # Filtros
+        html.Div(style=estilos['filtros_container'], children=[
             html.Div([
-                html.Label("ID da Pesquisa"),
+                html.Label("🔍 ID da Pesquisa", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-id-institucional",
                     options=[{"label": str(id_pesquisa), "value": id_pesquisa} 
                             for id_pesquisa in sorted(df_institucional["ID_PESQUISA"].dropna().unique())],
                     multi=True,
-                    placeholder="Selecione o(s) ID(s)"
+                    placeholder="Selecione o(s) ID(s)",
+                    style=estilos['dropdown']
                 ),
-            ], style={"width": "50%", "display": "inline-block", "padding": "10px"}),
+            ], style={"width": "48%", "display": "inline-block", "padding": "10px", "marginRight": "2%"}),
 
             html.Div([
-                html.Label("Unidade"),
+                html.Label("🏢 Unidade", style={'fontWeight': '600', 'marginBottom': '5px'}),
                 dcc.Dropdown(
                     id="filtro-unidade-institucional",
                     options=[{"label": c, "value": c} for c in unidades_unicas],
                     multi=True,
-                    placeholder="Selecione a(s) unidade(s)"
+                    placeholder="Selecione a(s) unidade(s)",
+                    style=estilos['dropdown']
                 ),
-            ], style={"width": "50%", "display": "inline-block", "padding": "10px"}),
+            ], style={"width": "48%", "display": "inline-block", "padding": "10px", "marginLeft": "2%"}),
         ]),
-        # ... resto do layout
 
-        html.Br(), html.Br(),
-
-        html.Div([
-            html.Div([
+        # Gráficos superiores
+        html.Div(style={'display': 'flex', 'justifyContent': 'space-between', 'gap': '20px'}, children=[
+            html.Div(children=[
                 dcc.Graph(id="grafico-satisfacao-institucional"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
             
-            html.Div([
+            html.Div(children=[
                 dcc.Graph(id="grafico-distribuicao-unidades-institucional"),
-            ], style={"width": "50%", "display": "inline-block"}),
+            ], style=estilos['grafico_duplo']),
         ]),
         
-        html.Div([
-            html.Div([
-                dcc.Graph(id="grafico-treemap-unidades-institucional"),
-            ], style={"width": "100%", "display": "inline-block"}),
-        ])
+        # Gráfico inferior (Treemap)
+        html.Div(children=[
+            dcc.Graph(id="grafico-treemap-unidades-institucional"),
+        ], style=estilos['treemap_container'])
     ])
 
 # =============================================================
@@ -1057,7 +1308,7 @@ def atualizar_graficos_cursos(ids, cursos):
         dff = dff[dff["CURSO"].isin(cursos)]
     
     fig_satisfacao = criar_grafico_satisfacao_geral(dff)
-    fig_distribuicao_cursos = criar_grafico_distribuicao_cursos(dff)  # NOVA FUNÇÃO
+    fig_distribuicao_cursos = criar_grafico_distribuicao_cursos(dff)
     fig_treemap_setores = criar_grafico_treemap_setor(dff)
     
     return fig_satisfacao, fig_distribuicao_cursos, fig_treemap_setores
@@ -1107,9 +1358,6 @@ def atualizar_graficos_ead(ids, programas, perguntas_selecionadas):
         dff = dff[dff["ID_PESQUISA"].isin(ids)]
     if programas: 
         dff = dff[dff["CURSO"].isin(programas)]
-    
-    # REMOÇÃO: Código do likert removido
-    # Apenas 3 gráficos agora
     
     fig_distribuicao_disciplinas = criar_grafico_distribuicao_disciplinas_ead(dff)
     fig_satisfacao = criar_grafico_satisfacao_geral(dff)
