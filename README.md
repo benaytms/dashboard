@@ -24,5 +24,5 @@ realizadas pela UFPR:
    cd src
    python app.py (python3 app.py no Linux/MacOS)
 
-Abrir no navegador: http://localhost:8050
+2. **Abrir no navegador**: http://localhost:8050
    
