@@ -1138,8 +1138,8 @@ def criar_layout_institucional():
 
 app.layout = html.Div(style=estilos['container_principal'], children=[
     html.Div(style=estilos['header'], children=[
-        html.H1("Dashboard de Avaliações UFPR", style=estilos['titulo_principal']),
-        html.P("Análise de Satisfação e Desempenho Acadêmico", style=estilos['subtitulo']),
+        html.H1("Dashboard de Pesquisas UFPR", style=estilos['titulo_principal']),
+        html.P("Análise de Satisfação Acadêmica", style=estilos['subtitulo']),
     ]),
     
     html.Div(style=estilos['tabs_container'], children=[
