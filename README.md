@@ -14,6 +14,7 @@ realizadas pela UFPR:
 ### Pré-requisitos
 - Python 3.7 ou superior
 - pip (gerenciador de pacotes do Python)
+- git
 
 ### Instalação e Execução
 
