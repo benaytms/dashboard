@@ -19,9 +19,10 @@ realizadas pela UFPR:
 
 1. **Clone o repositório**
    ```bash
-   git clone Dashboard_Hackathon
-   cd Dashboard
+   git clone dashboard
    pip install -r requirements.txt
    cd src
    python app.py (python3 app.py no Linux/MacOS)
+
+Abrir no navegador: http://localhost:8050
    
