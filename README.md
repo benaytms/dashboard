@@ -21,3 +21,7 @@ realizadas pela UFPR:
    ```bash
    git clone <seu-repositorio>
    cd Dashboard
+   pip install -r requirements.txt
+   cd src
+   python app.py (python3 app.py no Linux/MacOS)
+   
