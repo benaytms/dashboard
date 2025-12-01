@@ -28,35 +28,6 @@ df_inst_resp = pd.read_csv(os.path.join(clean_data_path, "institucional_pesquisa
 df_inst_q = pd.read_csv(os.path.join(clean_data_path, "institucional_perguntas.csv"))
 df_inst_unidades = pd.read_csv(os.path.join(clean_data_path, "institucional_unidades.csv"))
 
-print("="*60)
-print("DATA LOADING STATUS")
-print("="*60)
-
-dataframes = {
-    "df_pres_resp": df_pres_resp,
-    "df_pres_q": df_pres_q,
-    "df_pres_disc": df_pres_disc,
-    "df_curso_resp": df_curso_resp,
-    "df_curso_q": df_curso_q,
-    "df_curso_info": df_curso_info,
-    "df_ead_resp": df_ead_resp,
-    "df_ead_q": df_ead_q,
-    "df_ead_disc": df_ead_disc,
-    "df_inst_resp": df_inst_resp,
-    "df_inst_q": df_inst_q,
-    "df_inst_unidades": df_inst_unidades
-}
-
-for name, df in dataframes.items():
-    if df.empty:
-        print(f"❌ {name}: EMPTY DATAFRAME!")
-    else:
-        print(f"✅ {name}: {df.shape[0]} rows, {df.shape[1]} cols")
-        # Print columns for key dataframes
-        if "pres" in name or "inst" in name:
-            print(f"   Columns: {list(df.columns)[:8]}")
-print("="*60)
-
 def processar_dados_presenciais():
     df = df_pres_resp.merge(df_pres_q, on=["ID_PERGUNTA", "ID_QUESTIONARIO"], how="left")
     df = df.merge(df_pres_disc, on=["COD_DISCIPLINA", "COD_CURSO"], how="left", suffixes=("_x", "_DISC"))
@@ -98,22 +69,14 @@ def processar_dados_institucional():
     if "PERGUNTA_y" in df.columns: df.rename(columns={"PERGUNTA_y": "PERGUNTA"}, inplace=True)
     if "PERGUNTA_x" in df.columns: df.drop(columns=["PERGUNTA_x"], inplace=True)
     
-    print("Colunas disponíveis após merge:", df.columns.tolist())
-    
     if "LOTACAO_x" in df.columns:
-        print(f"LOTACAO_x (PESQUISA 442) - Primeiros 5: {df['LOTACAO_x'].dropna().unique()[:5]}")
-        if "LOTACAO_y" in df.columns:
-            print(f"LOTACAO_y (Unidades) - Primeiros 5: {df['LOTACAO_y'].dropna().unique()[:5]}")
-        
         df.rename(columns={"LOTACAO_x": "LOTACAO"}, inplace=True)
         
         colunas_para_remover = ["LOTACAO_y", "SIGLA_LOTACAO"]
         for col in colunas_para_remover:
             if col in df.columns:
                 df.drop(columns=[col], inplace=True)
-                print(f"Removida coluna: {col}")
     
-    print(f"Coluna LOTACAO final - Primeiros 5: {df['LOTACAO'].dropna().unique()[:5]}")
     return df
 
 df_presencial = processar_dados_presenciais()
@@ -662,10 +625,8 @@ def criar_grafico_distribuicao_disciplinas_ead(dff):
     
     if "NOME_DISCIPLINA" in dff.columns and not dff["NOME_DISCIPLINA"].isna().all():
         coluna_disciplina = "NOME_DISCIPLINA"
-        print(f"Usando NOME_DISCIPLINA, {dff[coluna_disciplina].nunique()} disciplinas únicas")
     else:
         coluna_disciplina = "COD_DISCIPLINA" 
-        print("Usando COD_DISCIPLINA como fallback")
     
     disciplina_respostas = dff.groupby([coluna_disciplina, "RESPOSTA"]).size().reset_index(name="Quantidade")
     
@@ -827,10 +788,8 @@ def criar_grafico_distribuicao_unidades_institucional(dff):
     
     if "LOTACAO" in dff.columns and not dff["LOTACAO"].isna().all():
         coluna_unidade = "LOTACAO"
-        print(f"Distribuição Unidades - Usando LOTACAO, {dff[coluna_unidade].nunique()} unidades únicas")
     else:
         coluna_unidade = "SIGLA_LOTACAO"
-        print("Distribuição Unidades - Usando SIGLA_LOTACAO como fallback")
     
     unidade_respostas = dff.groupby([coluna_unidade, "RESPOSTA"]).size().reset_index(name="Quantidade")
     
@@ -903,10 +862,8 @@ def criar_grafico_treemap_unidades_institucional(dff):
     
     if "LOTACAO" in dff.columns and not dff["LOTACAO"].isna().all():
         coluna_unidade = "LOTACAO"
-        print(f"Treemap Unidades - Usando LOTACAO, {dff[coluna_unidade].nunique()} unidades únicas")
     else:
         coluna_unidade = "SIGLA_LOTACAO"
-        print("Treemap Unidades - Usando SIGLA_LOTACAO como fallback")
     
     unidade_stats = dff.groupby(coluna_unidade).agg({
         "valor_num": "mean",
