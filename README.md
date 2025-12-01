@@ -20,8 +20,9 @@ realizadas pela UFPR:
 1. **Clone o repositório**
    ```bash
    git clone dashboard
+   cd dashboard/
    pip install -r requirements.txt
-   cd src
+   cd src/
    python app.py (python3 app.py no Linux/MacOS)
 
 2. **Abrir no navegador**: http://localhost:8050
