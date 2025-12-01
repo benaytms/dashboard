@@ -1,0 +1,34 @@
+ID_PERGUNTA,ID_QUESTIONARIO,QUESTIONARIO,CL_PERGUNTA,Ordem,Tipo_Pergunta,PERGUNTA
+1942,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,1,PlAc,"O projeto pedagógico do curso promove a interdisciplinaridade, ou seja, o diálogo entre as disciplinas, favorecendo ao aluno novas percepções dos conteúdos."
+1943,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,2,PlAc,"A organização do curso possibilita a formação plural (acadêmica, profissional e cidadã) do aluno."
+1944,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,3,PlAc,A organização do curso favorece a articulação entre teorias estudadas e atividades práticas para o aprendizado profissional.
+1945,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,4,PlAc,A flexibilidade curricular do curso promove autonomia ao estudante ao permitir a personalização do ensino.
+1946,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,5,PlAc,"São efetivas as ações pedagógicas que fortalecem a indissociabilidade entre as atividades de ensino, pesquisa e extensão para o curso."
+1947,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,6,PlAc,O curso oferta atividades de pesquisa* que ampliam a formação do aluno.
+1948,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,7,PlAc,O curso oferta atividades de extensão* adequadas à formação do aluno.
+1949,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,8,PlAc,O curso oferta diversas atividades formativas complementares* à formação do aluno.
+1950,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,9,PlAc,"As normativas de estágio curricular estão implantadas na instituição, são claras e atendem aos propósitos de formação geral e específica do aluno."
+1951,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,10,PlAc,"Na UFPR, as ações de cooperação internacional, políticas linguísticas e mobilidade acadêmica/intercâmbio nacional e internacional contribuem para o processo de produção do conhecimento e ampliação das experiências dos estudantes de graduação."
+1952,604,"Políticas para o Ensino, a Pesquisa e a Extensão",Curso,11,PlAc,Há efetividade nas ações e políticas da UFPR que visam dirimir a evasão e o abandono nos cursos de graduação.
+1811,605,Políticas de Comunicação com a Sociedade,Curso,14,PlAc,"As informações divulgadas no Portal da UFPR são objetivas e atualizadas, apresentando aspectos institucionais e acadêmicos relevantes."
+1812,605,Políticas de Comunicação com a Sociedade,Curso,13,PlAc,A estratégia de comunicação institucional garante o acompanhamento da imagem pública da instituição perante a sociedade.
+1953,605,Políticas de Comunicação com a Sociedade,Curso,12,PlAc,"Os canais de comunicação utilizados na UFPR possibilitam a visibilidade das políticas e ações institucionais, interna e externamente."
+1954,605,Políticas de Comunicação com a Sociedade,Curso,15,PlAc,O Portal do Curso é uma ferramenta eficiente de informação para a comunidade estudantil.
+1955,605,Políticas de Comunicação com a Sociedade,Curso,16,PlAc,"As normas acadêmicas (Resoluções, Portarias, Normativas, Editais, Manual para Estudantes etc.) são divulgadas pela instituição e estão acessíveis aos estudantes."
+1956,605,Políticas de Comunicação com a Sociedade,Curso,17,PlAc,A Ouvidoria Geral atende adequadamente às manifestações que lhe são requeridas e é efetiva no encaminhamento e acompanhamento das demandas dos estudantes.
+1820,606,Políticas Institucionais de Atendimento aos Estudantes,Curso,19,PlAc,Os programas de apoio à permanência estudantil* ofertados na UFPR geram resultados visíveis na vida acadêmica dos estudantes atendidos.
+1957,606,Políticas Institucionais de Atendimento aos Estudantes,Curso,18,PlAc,"A instituição oferta atendimento pedagógico e psicossocial suficiente, efetivo e adequado às demandas da comunidade estudantil."
+1958,606,Políticas Institucionais de Atendimento aos Estudantes,Curso,20,PlAc,"Os serviços institucionais de acolhimento e orientação às vítimas de discriminação, assédio e/ou violência são efetivos e geram resultados visíveis na vida acadêmica dos estudantes atendidos."
+1959,606,Políticas Institucionais de Atendimento aos Estudantes,Curso,21,PlAc,"O apoio institucional aos estudantes com deficiências e transtornos neurológicos garante a inclusão, e é visível a melhora no aprendizado."
+1960,606,Políticas Institucionais de Atendimento aos Estudantes,Curso,22,PlAc,O apoio de tradutores e intérpretes de linguagem de sinais aos estudantes surdos garante a acessibilidade no aprendizado.
+1961,607,Considerações finais sobre a avaliação do curso,Curso,23,AAvE,Espaço aberto para comentário (opcional).
+1732,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,1,AvPDSPF,"O plano de ensino da disciplina (objetivos, conteúdos, metodologias de ensino e de avaliação, e bibliografia) foi disponibilizado no início da oferta."
+1733,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,2,AvPDSPF,"O plano da disciplina foi cumprido e, quando necessário, adaptado ao perfil da turma."
+1734,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,3,AvPDSPF,A carga horária proposta para esta disciplina foi adequada aos elementos do plano de ensino.
+1735,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,4,AvPDSPF,"O conteúdo abordado é atual, coerente e articulado com o mercado de trabalho."
+1736,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,5,AvPDSPF,As metodologias de ensino corresponderam aos propósitos do plano de ensino.
+1762,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,6,AvPDSPF,As correções das atividades e as devolutivas sobre as avaliações contribuíram no processo de aprendizagem.
+1737,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,7,AvPDSPF,"As formas de avaliação da aprendizagem foram compatíveis com os objetivos do plano de ensino, e contribuíram para a minha formação e autonomia."
+1738,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,8,AvPDSPF,O material didático sugerido para a disciplina teve coerência com o conteúdo programático do plano de ensino e ofereceu condições adequadas para o estudo e a aprendizagem.
+1739,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,9,AvPDSPF,"Esta disciplina teve carga horária na modalidade a distância, nos termos da Resolução n.º 72/10-Cepe."
+1740,523,Disciplina: avaliação da percepção discente sobre o processo formativo,Disciplina,10,AvPDSPF,"Houve interação regular do docente com o estudante no ambiente virtual de aprendizagem (AVA), de acordo com as necessidades didáticas da disciplina."
