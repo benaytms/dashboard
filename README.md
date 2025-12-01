@@ -17,6 +17,7 @@ realizadas pela UFPR:
 
 ### Instalação e Execução
 
+```bash
 1. git clone https://github.com/benaytms/dashboard.git
 2. cd dashboard/
 3. python3 -m venv venv
