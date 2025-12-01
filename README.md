@@ -26,4 +26,3 @@ realizadas pela UFPR:
 6. cd src/
 7. python3 app.py
 8. Abrir no navegador: http://localhost:8050
-   
