@@ -17,14 +17,12 @@ realizadas pela UFPR:
 
 ### Instalação e Execução
 
-1. **Clone o repositório**
-   ```bash
-   git clone https://github.com/benaytms/dashboard.git
-   cd dashboard/
-   python3 -m venv venv
-   pip install -r requirements.txt
-   cd src/
-   python3 app.py
-
-2. **Abrir no navegador**: http://localhost:8050
+1. git clone https://github.com/benaytms/dashboard.git
+2. cd dashboard/
+3. python3 -m venv venv
+4. source venv/bin/activate
+5. pip install -r requirements.txt
+6. cd src/
+7. python3 app.py
+8. **Abrir no navegador**: http://localhost:8050
    
