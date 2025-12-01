@@ -9,9 +9,7 @@ import sys
 import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
 project_root = os.path.dirname(current_dir)
-
 clean_data_path = os.path.join(project_root, 'clean_data')
 
 df_pres_resp = pd.read_csv(os.path.join(clean_data_path, "presenciais_dadosavdisciplinas.csv"))
@@ -29,6 +27,35 @@ df_ead_disc = pd.read_csv(os.path.join(clean_data_path, "ead_disciplinas.csv"))
 df_inst_resp = pd.read_csv(os.path.join(clean_data_path, "institucional_pesquisa_442.csv"))
 df_inst_q = pd.read_csv(os.path.join(clean_data_path, "institucional_perguntas.csv"))
 df_inst_unidades = pd.read_csv(os.path.join(clean_data_path, "institucional_unidades.csv"))
+
+print("="*60)
+print("DATA LOADING STATUS")
+print("="*60)
+
+dataframes = {
+    "df_pres_resp": df_pres_resp,
+    "df_pres_q": df_pres_q,
+    "df_pres_disc": df_pres_disc,
+    "df_curso_resp": df_curso_resp,
+    "df_curso_q": df_curso_q,
+    "df_curso_info": df_curso_info,
+    "df_ead_resp": df_ead_resp,
+    "df_ead_q": df_ead_q,
+    "df_ead_disc": df_ead_disc,
+    "df_inst_resp": df_inst_resp,
+    "df_inst_q": df_inst_q,
+    "df_inst_unidades": df_inst_unidades
+}
+
+for name, df in dataframes.items():
+    if df.empty:
+        print(f"❌ {name}: EMPTY DATAFRAME!")
+    else:
+        print(f"✅ {name}: {df.shape[0]} rows, {df.shape[1]} cols")
+        # Print columns for key dataframes
+        if "pres" in name or "inst" in name:
+            print(f"   Columns: {list(df.columns)[:8]}")
+print("="*60)
 
 def processar_dados_presenciais():
     df = df_pres_resp.merge(df_pres_q, on=["ID_PERGUNTA", "ID_QUESTIONARIO"], how="left")
