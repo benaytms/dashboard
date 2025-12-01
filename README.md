@@ -19,7 +19,7 @@ realizadas pela UFPR:
 
 1. **Clone o repositório**
    ```bash
-   git clone <seu-repositorio>
+   git clone Dashboard_Hackathon
    cd Dashboard
    pip install -r requirements.txt
    cd src
