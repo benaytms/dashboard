@@ -19,7 +19,7 @@ realizadas pela UFPR:
 
 1. **Clone o repositório**
    ```bash
-   git clone dashboard
+   git clone [dashboard](https://github.com/benaytms/dashboard.git)
    cd dashboard/
    python3 -m venv venv
    pip install -r requirements.txt
