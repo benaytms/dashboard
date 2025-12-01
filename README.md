@@ -25,5 +25,5 @@ realizadas pela UFPR:
 5. pip install -r requirements.txt
 6. cd src/
 7. python3 app.py
-8. **Abrir no navegador**: http://localhost:8050
+8. Abrir no navegador: http://localhost:8050
    
