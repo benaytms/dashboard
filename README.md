@@ -21,9 +21,10 @@ realizadas pela UFPR:
    ```bash
    git clone dashboard
    cd dashboard/
+   python3 -m venv venv
    pip install -r requirements.txt
    cd src/
-   python app.py (python3 app.py no Linux/MacOS)
+   python3 app.py
 
 2. **Abrir no navegador**: http://localhost:8050
    
